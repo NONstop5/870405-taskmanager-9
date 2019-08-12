@@ -1,7 +1,7 @@
 # Личный проект «Менеджер задач» [![Build status][travis-image]][travis-url]
 
 * Студент: [Игорь Ильягуев](https://up.htmlacademy.ru/ecmascript/9/user/870405).
-* Наставник: `Неизвестно`.
+* Наставник: `Кексобот`.
 
 ---
 
