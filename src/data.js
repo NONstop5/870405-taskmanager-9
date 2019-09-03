@@ -22,7 +22,7 @@ const TASK_TITLE_LIST = [
 ];
 
 // Список тэгов задач
-const TASK_TAG_LIST = [
+const TASK_HASHTAG_LIST = [
   `homework`,
   `theory`,
   `practice`,
@@ -53,7 +53,7 @@ const DAYS_OF_WEEK = [
 
 /**
  * Возвращает дату плюс-минус 7 дней от текущей даты
- * @return {date}
+ * @return {string}
  */
 const getDueDate = () => {
   const curDate = new Date();
@@ -65,14 +65,14 @@ const getDueDate = () => {
 
 /**
  * Возвращает список хэштэгов в кол-ве (от 0 до 3)
- * @return {string}
+ * @return {[]}
  */
-const getTags = () => {
+const getHashtags = () => {
   const tagsCount = getRandomValueRange(0, 3);
   let tagsList = [];
 
   for (let i = 1; i <= tagsCount; i++) {
-    tagsList.push(TASK_TAG_LIST[getRandomValueRange(0, TASK_TAG_LIST.length - 1)]);
+    tagsList.push(TASK_HASHTAG_LIST[getRandomValueRange(0, TASK_HASHTAG_LIST.length - 1)]);
   }
 
   return tagsList;
@@ -94,6 +94,6 @@ export {
   TASK_TITLE_LIST,
   TASK_COLOR_LIST,
   getDueDate,
-  getTags,
+  getHashtags,
   getRepeatingDays
 };
