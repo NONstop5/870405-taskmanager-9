@@ -77,6 +77,18 @@ const addLoadMoreEvents = () => {
 };
 
 /**
+ * Заменяетодин компонент другим
+ * @param {Element} containerElem
+ * @param {object} newComponent
+ * @param {object} oldComponent
+ */
+const replaceComponents = (containerElem, newComponent, oldComponent) => {
+  newComponent.render();
+  containerElem.replaceChild(newComponent.element, oldComponent.element);
+  oldComponent.unrender();
+};
+
+/**
  * Создание заданного числа карточеек
  * @param {Element} containerTasksElem
  */
@@ -112,15 +124,11 @@ const generateTasks = (containerTasksElem) => {
     containerTasksElem.appendChild(taskComponent.render());
 
     taskComponent.onEdit = () => {
-      taskEditComponent.render();
-      containerTasksElem.replaceChild(taskEditComponent.element, taskComponent.element);
-      taskComponent.unrender();
+      replaceComponents(containerTasksElem, taskEditComponent, taskComponent);
     };
 
     taskEditComponent.onSubmit = () => {
-      taskComponent.render();
-      containerTasksElem.replaceChild(taskComponent.element, taskEditComponent.element);
-      taskEditComponent.unrender();
+      replaceComponents(containerTasksElem, taskEditComponent, taskComponent);
     };
   }
 };
