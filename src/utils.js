@@ -8,6 +8,11 @@ const getRandomValueRange = (minValue, maxValue) => {
   return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
 };
 
+/**
+ * Возвращает отформатированную дату
+ * @param {Object} date
+ * @return {string}
+ */
 const getFormatDate = (date) => {
   const monthNames = [
     `January`,
