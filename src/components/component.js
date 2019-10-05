@@ -38,10 +38,10 @@ class Component {
 
   /**
    * Отрисовка задачи в заданном элементе
-   * @return {link}
+   * @return {Node}
    */
   render() {
-    this._element = null || document.createElement(`div`);
+    this._element = document.createElement(`div`);
 
     this._element.innerHTML = this.template;
     this._element = this._element.firstElementChild;

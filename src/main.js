@@ -115,7 +115,8 @@ const generateTasks = (containerTasksElem) => {
       isDate: !!getRandomValueRange(0, 1),
       isRepeate: !!getRandomValueRange(0, 1),
       isFavorite: !!getRandomValueRange(0, 1),
-      isArchive: !!getRandomValueRange(0, 1)
+      isArchive: !!getRandomValueRange(0, 1),
+      isDone: !!getRandomValueRange(0, 1)
     };
 
     const taskComponent = new Task(taskObj);
@@ -126,9 +127,14 @@ const generateTasks = (containerTasksElem) => {
     taskComponent.onEdit = () => {
       replaceComponents(containerTasksElem, taskEditComponent, taskComponent);
     };
-
     taskEditComponent.onSubmit = () => {
-      replaceComponents(containerTasksElem, taskEditComponent, taskComponent);
+      replaceComponents(containerTasksElem, taskComponent, taskEditComponent);
+    };
+    taskEditComponent.onReset = () => {
+      replaceComponents(containerTasksElem, taskComponent, taskEditComponent);
+    };
+    taskEditComponent.onKeyPress = () => {
+      replaceComponents(containerTasksElem, taskComponent, taskEditComponent);
     };
   }
 };

@@ -106,31 +106,6 @@ class Task extends Component {
   }
 
   /**
-   * Генерация html-кода хэштэгов
-   * @param {array} tags
-   * @return {string}
-   */
-  _generateTaskHashtags(tags) {
-    const tagsHtml = tags.reduce((resultHtml, tagValue) => {
-      return resultHtml + `
-      <span class="card__hashtag-inner">
-        <button type="button" class="card__hashtag-name">
-          #${tagValue}
-        </button>
-      </span>
-    `;
-    }, ``);
-
-    return `
-    <div class="card__hashtag">
-      <div class="card__hashtag-list">
-        ${tagsHtml}
-      </div>
-    </div>
-  `;
-  }
-
-  /**
    * Отрисовка карточки задачи
    * @return {string}
    */
@@ -142,7 +117,7 @@ class Task extends Component {
       </button>
       <button type="button" class="card__btn card__btn--archive${this._getTaskDisabledClass(this._state.isDone)}">
         archive
-      </button>
+      </button>      
       <button type="button" class="card__btn card__btn--favorites${this._getTaskDisabledClass(this._state.isFavorite)}">
         favorites
       </button>
@@ -225,6 +200,7 @@ class Task extends Component {
    */
   addEvents() {
     const cardBtnEditElem = this._element.querySelector(`.card__btn--edit`);
+
     cardBtnEditElem.addEventListener(`click`, this._onEditButtonClick);
   }
 
@@ -233,6 +209,7 @@ class Task extends Component {
    */
   removeEvents() {
     const cardBtnEditElem = this._element.querySelector(`.card__btn--edit`);
+
     cardBtnEditElem.removeEventListener(`click`, this._onEditButtonClick);
   }
 
