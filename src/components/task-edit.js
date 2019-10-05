@@ -1,4 +1,4 @@
-import {Component} from "./component";
+import {Component} from './component';
 
 class TaskEdit extends Component {
   constructor(data) {
@@ -15,11 +15,15 @@ class TaskEdit extends Component {
       isDate: data.isDate,
       isRepeate: data.isRepeate,
       isFavorite: data.isFavorite,
-      isDone: data.isDone,
+      isDone: data.isDone
     };
 
     this._onSubmit = null;
+    this._onReset = null;
+    this._onKeyPress = null;
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
+    this._onResetButtonClick = this._onResetButtonClick.bind(this);
+    this._onEscKeyPress = this._onEscKeyPress.bind(this);
     this._onChangeDate = this._onChangeDate.bind(this);
     this._onChangeRepeated = this._onChangeRepeated.bind(this);
   }
@@ -117,39 +121,6 @@ class TaskEdit extends Component {
   }
 
   /**
-   * Генерация html-кода хэштэгов
-   * @param {array} tags
-   * @return {string}
-   */
-  _generateTaskHashtags(tags) {
-    const tagsHtml = tags.reduce((resultHtml, tagValue) => {
-      return resultHtml + `
-      <span class="card__hashtag-inner">
-        <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input" />
-        <button type="button" class="card__hashtag-name">
-          #${tagValue}
-        </button>
-        <button type="button" class="card__hashtag-delete">
-          delete
-        </button>
-      </span>
-    `;
-    }, ``);
-
-    return `
-    <div class="card__hashtag">
-      <div class="card__hashtag-list">
-        ${tagsHtml}
-      </div>
-
-      <label>
-        <input type="text" class="card__hashtag-input" name="hashtag-input" placeholder="Type new hashtag here" />
-      </label>
-    </div>
-  `;
-  }
-
-  /**
    * Возвращает повторяется задача или нет в виде текста
    * @param {boolean} isRepeat
    * @return {string}
@@ -161,7 +132,7 @@ class TaskEdit extends Component {
   /**
    * Генерация html-кода дней недели
    * @param {object} repeatingDays
-   * @param {integer} id
+   * @param {int} id
    * @return {string}
    */
   _generateTaskDaysHtml(repeatingDays, id) {
@@ -181,13 +152,19 @@ class TaskEdit extends Component {
   /**
    * Генерация html - кода цветов
    * @param {object} colorObj
-   * @param {integer} id
+   * @param {int} id
    * @return {string}
    */
   _generateTaskColorsHtml(colorObj, id) {
     return colorObj.list.reduce((resultHtml, color) => {
       return resultHtml + `
-      <input type="radio" id="color-${color}-${id}" class="card__color-input card__color-input--${color} visually-hidden" name="color" value="${color}" ${color === colorObj.value ? `checked` : ``} />
+      <input
+        type="radio"
+        id="color-${color}-${id}"
+        class="card__color-input card__color-input--${color} visually-hidden"
+        name="color"
+        value="${color}" ${color === colorObj.value ? `checked` : ``}
+      >
       <label for="color-${color}-${id}" class="card__color card__color--${color}">${color}</label>
     `;
     }, ``);
@@ -200,9 +177,6 @@ class TaskEdit extends Component {
   get template() {
     const taskControlBlock = `
     <div class="card__control">
-      <button type="button" class="card__btn card__btn--edit card__btn--disabled">
-        edit
-      </button>
       <button type="button" class="card__btn card__btn--archive${this._getTaskDisabledClass(this._state.isDone)}">
         archive
       </button>
@@ -315,16 +289,44 @@ class TaskEdit extends Component {
     this._onSubmit = fn;
   }
 
-  _onChangeDate() {}
+  _onResetButtonClick() {
+    if (typeof this._onReset === `function`) {
+      this._onReset();
+    }
+  }
 
-  _onChangeRepeated() {}
+  set onReset(fn) {
+    this._onReset = fn;
+  }
+
+  _onEscKeyPress(evt) {
+    if (typeof this._onKeyPress === `function`) {
+      if (evt.key === `Escape` || evt.key === `Esc`) {
+        this._onKeyPress();
+      }
+    }
+  }
+
+  set onKeyPress(fn) {
+    this._onKeyPress = fn;
+  }
+
+  _onChangeDate() {
+  }
+
+  _onChangeRepeated() {
+  }
 
   /**
    * Создаем обработчики событий
    */
   addEvents() {
     const cardBtnSubmitElem = this._element.querySelector(`.card__save`);
+    const cardBtnResetElem = this._element.querySelector(`.card__delete`);
+
     cardBtnSubmitElem.addEventListener(`click`, this._onSubmitButtonClick.bind(this));
+    cardBtnResetElem.addEventListener(`click`, this._onResetButtonClick.bind(this));
+    document.addEventListener(`keydown`, this._onEscKeyPress.bind(this));
   }
 
   /**
@@ -332,7 +334,11 @@ class TaskEdit extends Component {
    */
   removeEvents() {
     const cardBtnSubmitElem = this._element.querySelector(`.card__save`);
+    const cardBtnResetElem = this._element.querySelector(`.card__delete`);
+
     cardBtnSubmitElem.removeEventListener(`click`, this._onSubmitButtonClick.bind(this));
+    cardBtnResetElem.removeEventListener(`click`, this._onResetButtonClick.bind(this));
+    document.addEventListener(`keydown`, this._onEscKeyPress.bind(this));
   }
 
   /**
