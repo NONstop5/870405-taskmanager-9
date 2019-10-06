@@ -1,7 +1,7 @@
-class Component {
+class AbstractComponent {
   constructor() {
-    if (new.target === Component) {
-      throw new Error(`Can't instantiate BaseComponent, only concrete one.`);
+    if (new.target === AbstractComponent) {
+      throw new Error(`Can't instantiate AbstractComponent, only concrete one.`);
     }
     this._element = null;
 
@@ -66,5 +66,5 @@ class Component {
 }
 
 export {
-  Component
+  AbstractComponent
 };

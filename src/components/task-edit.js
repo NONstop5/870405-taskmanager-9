@@ -1,6 +1,6 @@
-import {Component} from './component';
+import {AbstractComponent} from './abstract-component';
 
-class TaskEdit extends Component {
+class TaskEdit extends AbstractComponent {
   constructor(data) {
     super();
     this._id = data.id;
